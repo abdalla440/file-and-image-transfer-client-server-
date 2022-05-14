@@ -50,7 +50,6 @@ class Client(QWidget):
         self.message_input = QTextEdit(self.message_tab)
         self.send_message_button = QPushButton(self.message_tab)
 
-        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.set_features()
         self.retranslateUi()
         self.set_actions()
@@ -295,11 +294,15 @@ class Client(QWidget):
         self.file_send_button.clicked.connect(lambda: self.send_file())
 
     def connect_server(self):
-        # ADDR (SERVER IP, SERVER PORT)
-        self.message_viewer.append(f"[CONNECTING] connecting the server...")
-        ADDR = (self.ip_input.text(), int(self.port_input.text()))
-        self.client_socket.connect(ADDR)
-        self.message_viewer.append(f"[CONNECTING] connected successfully\n")
+        try:
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            # ADDR (SERVER IP, SERVER PORT)
+            self.message_viewer.append(f"[CONNECTING] connecting the server...")
+            ADDR = (self.ip_input.text(), int(self.port_input.text()))
+            self.client_socket.connect(ADDR)
+            self.message_viewer.append(f"[CONNECTING] connected successfully\n")
+        except:
+            self.message_viewer.append(f"[Warning] can't connect the server!!!!!\n")
 
     def browse(self, flag):
         # get opened file path
@@ -319,110 +322,117 @@ class Client(QWidget):
                 self.message_viewer.append("[OPEN IMAGE] image opened successfully\n")
 
     def send_msg(self, msg):
-        # encode the message into byte-like format
-        message = msg.encode(FORMAT)
-        # get the length of the message
-        msg_length = len(message)
-        # encode message length into string "utf-8"
-        send_length = str(msg_length).encode(FORMAT)
-        # pad the length to 64 bytes long
-        # here you get the difference between Header size and your send_length then add the rest of it as spaces
-        send_length += b' ' * (HEADER - len(send_length))  # b' ' byte representation of the string (space)
-        # send ack that you will send a message
-        self.client_socket.send("message".encode(FORMAT) + b' ' * (TRANSFER - len("message")))
-        self.message_viewer.append("[SENDING] MESSAGE")
+        try:
+            # encode the message into byte-like format
+            message = msg.encode(FORMAT)
+            # get the length of the message
+            msg_length = len(message)
+            # encode message length into string "utf-8"
+            send_length = str(msg_length).encode(FORMAT)
+            # pad the length to 64 bytes long
+            # here you get the difference between Header size and your send_length then add the rest of it as spaces
+            send_length += b' ' * (HEADER - len(send_length))  # b' ' byte representation of the string (space)
+            # send ack that you will send a message
+            self.client_socket.send("message".encode(FORMAT) + b' ' * (TRANSFER - len("message")))
+            self.message_viewer.append("[SENDING] MESSAGE")
 
-        # send the header to the server
-        self.client_socket.send(send_length)
-        self.message_viewer.append(f"[SENDING MESSAGE HEADER] {send_length}")
+            # send the header to the server
+            self.client_socket.send(send_length)
+            self.message_viewer.append(f"[SENDING MESSAGE HEADER] {send_length}")
 
-        # send actual message to the server
-        self.client_socket.send(message)
-        self.message_viewer.append(f"[SENDING MESSAGE] {message}")
+            # send actual message to the server
+            self.client_socket.send(message)
+            self.message_viewer.append(f"[SENDING MESSAGE] {message}")
 
-        # ack that server's message is here
-        self.message_viewer.append(self.client_socket.recv(2048).decode(FORMAT)+"\n")
+            # ack that server's message is here
+            self.message_viewer.append(self.client_socket.recv(2048).decode(FORMAT)+"\n")
+        except:
+            self.message_viewer.append(f"[Warning] can't send the message!!!!!\n")
 
     def send_file(self):
-        # send ack that you will send a file
-        self.client_socket.send("file".encode(FORMAT) + b' ' * (TRANSFER - len("file")))
-        self.message_viewer.append("[SENDING] FILE")
+        try:
+            # send ack that you will send a file
+            self.client_socket.send("file".encode(FORMAT) + b' ' * (TRANSFER - len("file")))
+            self.message_viewer.append("[SENDING] FILE")
 
-        file_path = self.file_path_input.text()
+            file_path = self.file_path_input.text()
 
-        # get file content
-        with open(file_path, "r") as opened_file:
-            #
-            file_data = opened_file.read()
-            # create file name
-            file_name = opened_file.name.split("/")[-1]
+            # get file content
+            with open(file_path, "r") as opened_file:
+                #
+                file_data = opened_file.read()
+                # create file name
+                file_name = opened_file.name.split("/")[-1]
 
-        # send filename to the server
-        self.client_socket.send(file_name.encode(FORMAT))
-        self.message_viewer.append(f"[SENDING FILE NAME] {file_name}")
+            # send filename to the server
+            self.client_socket.send(file_name.encode(FORMAT))
+            self.message_viewer.append(f"[SENDING FILE NAME] {file_name}")
 
-        # get the length of the file
-        file_length = len(file_data)
+            # get the length of the file
+            file_length = len(file_data)
 
-        # encode file length into string "utf-8"
-        send_length = str(file_length).encode(FORMAT)
+            # encode file length into string "utf-8"
+            send_length = str(file_length).encode(FORMAT)
 
-        # pad the length to 64 bytes long
-        # here you get the difference between Header size and your send_length then add the rest of it as spaces
-        send_length += b' ' * (HEADER - len(send_length))  # b' ' byte representation of the string (space)
+            # pad the length to 64 bytes long
+            # here you get the difference between Header size and your send_length then add the rest of it as spaces
+            send_length += b' ' * (HEADER - len(send_length))  # b' ' byte representation of the string (space)
 
-        # send the header to the server
-        self.client_socket.send(send_length)
-        self.message_viewer.append(f"[SENDING FILE HEADER] {send_length}")
+            # send the header to the server
+            self.client_socket.send(send_length)
+            self.message_viewer.append(f"[SENDING FILE HEADER] {send_length}")
 
-        # send file content to the server
-        self.client_socket.send(file_data.encode(FORMAT))
-        self.message_viewer.append(f"[SENDING FILE DATA] file data sent successfully")
+            # send file content to the server
+            self.client_socket.send(file_data.encode(FORMAT))
+            self.message_viewer.append(f"[SENDING FILE DATA] file data sent successfully")
 
-        # ack that server's message is here
-        self.message_viewer.append(self.client_socket.recv(2048).decode(FORMAT)+"\n")
-
+            # ack that server's message is here
+            self.message_viewer.append(self.client_socket.recv(2048).decode(FORMAT)+"\n")
+        except:
+            self.message_viewer.append(f"[Warning] can't send the file!!!!!\n")
     def send_img(self):
-        # send ack that you will send a image
-        self.client_socket.send("image".encode(FORMAT) + b' ' * (TRANSFER - len("image")))
-        self.message_viewer.append("[SENDING] IMAGE")
+        try:
+            # send ack that you will send a image
+            self.client_socket.send("image".encode(FORMAT) + b' ' * (TRANSFER - len("image")))
+            self.message_viewer.append("[SENDING] IMAGE")
 
-        img_path = self.image_path_input.text()
-        # get file content
-        file = open(img_path, "rb")
-        # get image data (pixels)
-        img_data = file.read(40411)
+            img_path = self.image_path_input.text()
+            # get file content
+            file = open(img_path, "rb")
+            # get image data (pixels)
+            img_data = file.read(40411)
 
-        # create image name
-        img_name = file.name.split("/")[-1]
+            # create image name
+            img_name = file.name.split("/")[-1]
 
-        # send filename to the server
-        self.client_socket.send(img_name.encode(FORMAT))
-        self.message_viewer.append(f"[SENDING IMAGE NAME] {img_name}")
+            # send filename to the server
+            self.client_socket.send(img_name.encode(FORMAT))
+            self.message_viewer.append(f"[SENDING IMAGE NAME] {img_name}")
 
-        # get the length of the image
-        img_length = len(img_data)
+            # get the length of the image
+            img_length = len(img_data)
 
-        # encode image length into string "utf-8"
-        send_length = str(img_length).encode(FORMAT)
+            # encode image length into string "utf-8"
+            send_length = str(img_length).encode(FORMAT)
 
-        # pad the length to 64 bytes long
-        # here you get the difference between Header size and your send_length then add the rest of it as spaces
-        send_length += b' ' * (HEADER - len(send_length))  # b' ' byte representation of the string (space)
+            # pad the length to 64 bytes long
+            # here you get the difference between Header size and your send_length then add the rest of it as spaces
+            send_length += b' ' * (HEADER - len(send_length))  # b' ' byte representation of the string (space)
 
-        # send the header to the server
-        self.client_socket.send(send_length)
-        self.message_viewer.append(f"[SENDING IMAGE HEADER] {send_length}")
+            # send the header to the server
+            self.client_socket.send(send_length)
+            self.message_viewer.append(f"[SENDING IMAGE HEADER] {send_length}")
 
-        # send image content to the server
-        self.client_socket.send(img_data)
-        self.message_viewer.append(f"[SENDING IMAGE DATA] image data sent successfully")
+            # send image content to the server
+            self.client_socket.send(img_data)
+            self.message_viewer.append(f"[SENDING IMAGE DATA] image data sent successfully")
 
-        file.close()
+            file.close()
 
-        # ack that server's message is here
-        self.message_viewer.append(self.client_socket.recv(2048).decode(FORMAT)+"\n")
-
+            # ack that server's message is here
+            self.message_viewer.append(self.client_socket.recv(2048).decode(FORMAT)+"\n")
+        except:
+            self.message_viewer.append(f"[Warning] can't send the image!!!!!\n")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
