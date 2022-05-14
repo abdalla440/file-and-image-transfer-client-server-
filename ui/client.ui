@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>self</class>
+ <widget class="QWidget" name="self">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>908</width>
+    <height>778</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QGridLayout" name="self_grid">
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QFrame" name="holder_frame">
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+font:  &quot;Roboto&quot;;
+color: rgb(52, 52, 52);
+font-size:14px;
+background-color: none;
+
+}
+QPushButton{
+border:1px solid  rgb(171, 173, 179);
+border-radius:6px;
+background-color:rgba(171, 173, 179, 0.4);
+width:80px;
+height:23px;
+}
+QPushButton:hover {
+border:1px solid  rgb(0, 85, 0);
+background-color:rgba(171, 173, 179, 0.2);
+
+}
+
+QPushButton:pressed {
+border:1px solid  rgb(0, 85, 0);
+background-color:rgba(171, 173, 179, 0.4);
+
+}
+
+QLineEdit{
+border:1px solid  rgb(171, 173, 179);
+font-family: Segoe ui;
+font-size: 15px;
+border-radius:6px;
+width:80px;
+height:23px;
+} 
+
+QLineEdit:hover{
+background-color:rgba(171, 173, 179, 0.5);
+}
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0" colspan="2">
+       <widget class="QFrame" name="server_connection_frame">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="server_connection_frame_holder" columnstretch="0,2,2,1,1">
+         <property name="leftMargin">
+          <number>1</number>
+         </property>
+         <property name="topMargin">
+          <number>1</number>
+         </property>
+         <property name="rightMargin">
+          <number>1</number>
+         </property>
+         <property name="bottomMargin">
+          <number>17</number>
+         </property>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="connect_button">
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+background-color: rgba(0, 85, 0,0.2);
+border:1px solid  rgb(0, 85, 0);
+border-radius:6px;
+width:80px;
+height:23px;
+}
+QPushButton:hover {
+background-color: rgba(0, 85, 0,0.1);
+}
+
+QPushButton:pressed {
+background-color: rgba(0, 85, 0,0.2);
+}</string>
+           </property>
+           <property name="text">
+            <string>Connect</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="ip_input">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>Enter server IP</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QPushButton" name="disconnect_button">
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+border:1px solid #b01e0b;
+border-radius:6px;
+background-color: rgba(176, 30, 11, 0.2);
+width:80px;
+height:23px;
+}
+QPushButton:hover {
+background-color: rgba(176, 30, 11, 0.1);
+}
+
+QPushButton:pressed {
+background-color: rgba(176, 30, 11, 0.2);
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Disconnect</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLineEdit" name="port_input">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>Enter server Port</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="2">
+          <widget class="QLabel" name="connect_label">
+           <property name="text">
+            <string>connect to the server</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::North</enum>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="file_tab">
+         <attribute name="title">
+          <string>file transfer</string>
+         </attribute>
+         <layout class="QGridLayout" name="file_tab_grid">
+          <item row="0" column="0">
+           <widget class="QPushButton" name="select_file_button">
+            <property name="text">
+             <string>Select file</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="or_label">
+            <property name="text">
+             <string>or  </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="file_path_input">
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>Enter File Path</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QTextBrowser" name="file_browser"/>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QPushButton" name="file_send_button">
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="image_tab">
+         <attribute name="title">
+          <string>image transfer</string>
+         </attribute>
+         <layout class="QGridLayout" name="image_tab_grid">
+          <item row="2" column="0" colspan="3">
+           <widget class="QPushButton" name="image_send_button">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="select_image_button">
+            <property name="text">
+             <string>Select image</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="image_path_input">
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="placeholderText">
+             <string>Enter Image Path</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="image_or_label">
+            <property name="text">
+             <string>or  </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QLabel" name="label">
+            <property name="maximumSize">
+             <size>
+              <width>416</width>
+              <height>614</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="message_tab">
+         <attribute name="title">
+          <string>message transfer</string>
+         </attribute>
+         <layout class="QGridLayout" name="message_tab_grid">
+          <item row="0" column="0">
+           <widget class="QTextEdit" name="message_input"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="send_message_button">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QTextBrowser" name="message_viewer">
+        <property name="styleSheet">
+         <string notr="true">font-size:15px;
+color: rgb(0, 85, 0);
+</string>
+        </property>
+        <property name="html">
+         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:15px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:15px;&quot;&gt;abdalla hannora&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="header_label">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size:25px;</string>
+        </property>
+        <property name="text">
+         <string>--- Cilent Side ---</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
